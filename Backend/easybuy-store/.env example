@@ -1,0 +1,8 @@
+PORT=3000
+BASE_URL=https://api.escuelajs.co/api/v1
+NAME = YourName
+AVATAR = https://picsum.photos/800
+EMAIL= YourEmail
+PASSWORD= YoutPassword
+API_KEY = YourApiKey
+
