@@ -1,4 +1,4 @@
-import { Category } from "../entities/category.entity";
+import { Category } from '../entities/category.entity';
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -6,18 +6,19 @@ class CategoryService {
   async getAll() {
     try {
       const response = await fetch(`${baseUrl}/categories`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey as string,
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey as string,
         },
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
 
       const data = await response.json();
+      console.log(data);
       return data as Category[];
     } catch (error) {
       console.log(error);
@@ -28,11 +29,11 @@ class CategoryService {
   async create(category: Category) {
     try {
       const response = await fetch(`${baseUrl}/categories`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(category),
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey as string,
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey as string,
         },
       });
 
@@ -47,11 +48,11 @@ class CategoryService {
   async update(category: Category) {
     try {
       const response = await fetch(`${baseUrl}/categories/${category.id}`, {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify(category),
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey as string,
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey as string,
         },
       });
 
@@ -66,10 +67,10 @@ class CategoryService {
   async delete(id: number) {
     try {
       const response = await fetch(`${baseUrl}/categories/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": apiKey as string,
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey as string,
         },
       });
 

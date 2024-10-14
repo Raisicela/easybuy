@@ -54,9 +54,27 @@ export class FakeStoreService {
     const headers = {
       Authorization: `Bearer ${this.token}`,
     };
-    return this.httpService.get(`${this.baseUrl}/products?title=${title}`, {
-      headers,
-    });
+    return this.httpService.get(
+      `${this.baseUrl}/products?title=${title}&offset=0&limit=100`,
+      {
+        headers,
+      },
+    );
+  }
+
+  getNextPage(
+    offset: number,
+    limit: number,
+  ): Observable<AxiosResponse<Product[]>> {
+    const headers = {
+      Authorization: `Bearer ${this.token}`,
+    };
+    return this.httpService.get(
+      `${this.baseUrl}/products?offset=${offset}&limit=${limit}`,
+      {
+        headers,
+      },
+    );
   }
 
   getOneProduct(id: number): Observable<AxiosResponse<Product>> {

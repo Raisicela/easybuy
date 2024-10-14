@@ -28,6 +28,13 @@ export class ProductsController {
     return this.productsService.findAll(title);
   }
 
+  @Get('/pages')
+  @UseGuards(ApiKeyGuard)
+  getNextPage(@Query('offset') offset: number, @Query('limit') limit: number) {
+    console.log(offset, limit);
+    return this.productsService.getNextPage(offset, limit);
+  }
+
   @Get(':productId')
   @UseGuards(ApiKeyGuard)
   @HttpCode(HttpStatus.ACCEPTED)

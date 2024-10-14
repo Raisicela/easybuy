@@ -6,6 +6,7 @@ import Modal from "../components/modal";
 import EditCategoryForm from "../components/editCategoryForm";
 import AddButton from "../components/AddButton";
 import SearchBar from "../components/SearchBar";
+import Swal from "sweetalert2";
 
 function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -20,6 +21,7 @@ function Categories() {
   };
 
   useEffect(() => {
+    console.log("use effect");
     fetchCategories();
   }, []);
 
@@ -34,12 +36,26 @@ function Categories() {
   };
 
   const onDeleteCategory = async (category: Category) => {
-    await categoryService.delete(category.id!);
-    fetchCategories();
+    const result = await Swal.fire({
+      title: "Are you sure about this?",
+      text: "Once deleted, you will not be able to recover this category.",
+      showDenyButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `Cancel`,
+    });
+
+    if (result.isConfirmed) {
+      await categoryService.delete(category.id!);
+      setCategories([...categories.filter((p) => p.id !== category.id)]);
+      Swal.fire("The category was successfully removed!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("The category was not removed", "", "info");
+    }
   };
 
   const onConfirmEditCategory = async (category: Category) => {
     await categoryService.update(category);
+    console.log("on confirm");
     fetchCategories();
     setEditCategory(undefined);
     setOpenModal(false);
@@ -47,6 +63,7 @@ function Categories() {
 
   const onConfirmCreateCategory = async (category: Category) => {
     await categoryService.create(category);
+    console.log("on create");
     fetchCategories();
     setEditCategory(undefined);
     setOpenModal(false);
@@ -65,11 +82,8 @@ function Categories() {
   };
 
   return (
-    <>
-      <div className="w-[90%] mt-2 md:mt-24 ">
-        <SearchBar onSearch={handlerSearch}></SearchBar>
-      </div>
-      <div className="h-screen overflow-scroll">
+    <div className="h-screen w-screen overflow-scroll">
+      <div>
         {openModal && (
           <Modal open={openModal}>
             <EditCategoryForm
@@ -80,21 +94,24 @@ function Categories() {
             />
           </Modal>
         )}
-        <div className="flex flex-wrap gap-x-8 gap-y-12 p-10 justify-around mt-2">
-          {categories.map((category) => (
-            <div key={category.id}>
-              <CategoryCard
-                name={category.name}
-                image={category.image}
-                onEditCategory={() => onEditCategory(category)}
-                onDeleteCategory={() => onDeleteCategory(category)}
-              />
-            </div>
-          ))}
-        </div>
-        <AddButton text="Add New Category" onClick={() => onNewCategory()} />
       </div>
-    </>
+      <div className="w-[90%] mt-2 md:mt-24 ">
+        <SearchBar onSearch={handlerSearch}></SearchBar>
+      </div>
+      <div className="flex flex-wrap gap-x-8 gap-y-12 p-10 justify-around mt-2">
+        {categories.map((category) => (
+          <div key={category.id}>
+            <CategoryCard
+              name={category.name}
+              image={category.image}
+              onEditCategory={() => onEditCategory(category)}
+              onDeleteCategory={() => onDeleteCategory(category)}
+            />
+          </div>
+        ))}
+      </div>
+      <AddButton text="Add New Category" onClick={() => onNewCategory()} />
+    </div>
   );
 }
 

@@ -16,6 +16,12 @@ export class ProductsService {
     );
     return response.data;
   }
+  async getNextPage(offset: number, limit: number): Promise<Product[]> {
+    const response = await lastValueFrom(
+      this.fakeStoreService.getNextPage(offset, limit),
+    );
+    return response.data;
+  }
 
   async findOne(id: number): Promise<Product> {
     try {

@@ -62,7 +62,7 @@ const EditProductForm = (props: Props) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col w-[90%] md:w-[80%] lg:w-[50%] h-[80%] sm:h-[70%] justify-between  bg-white  shadow-md rounded-xl px-8 py-4 "
+      className="flex flex-col w-[90%] md:w-[80%] lg:w-[50%] h-[90%] sm:h-[70%] justify-between  bg-white  shadow-md rounded-xl px-8 py-4 "
     >
       <div className="flex flex-row justify-between">
         <div></div>
